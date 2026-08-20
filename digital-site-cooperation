@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> E-LEARNING PORTAL </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; }
+
+        :root {
+            --royal-bg: #030712;
+            --royal-panel: rgba(7, 18, 38, 0.78);
+            --royal-panel-2: rgba(9, 25, 50, 0.88);
+            --cyan: #00e5ff;
+            --blue: #287bff;
+            --gold: #f6c85f;
+            --gold-soft: #ffe7a3;
+            --text: #f4f8ff;
+            --muted: #a9bad3;
+        }
+
+        html, body { min-height: 100%; }
+
+        body {
+            background:
+                radial-gradient(circle at 15% 15%, rgba(0, 229, 255, .10), transparent 28%),
+                radial-gradient(circle at 85% 75%, rgba(40, 123, 255, .12), transparent 30%),
+                #030712;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Premium animated circuit-board background */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            pointer-events: none;
+            opacity: .70;
+            background-image:
+                linear-gradient(90deg, transparent 0 49%, rgba(0,229,255,.055) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 0 49%, rgba(40,123,255,.045) 50%, transparent 51%);
+            background-size: 72px 72px;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: -20%;
+            z-index: -2;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 25% 35%, rgba(0,229,255,.13), transparent 20%),
+                radial-gradient(circle at 75% 65%, rgba(246,200,95,.08), transparent 18%);
+            animation: auraMove 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes auraMove {
+            from { transform: translate3d(-2%, -1%, 0) scale(1); }
+            to { transform: translate3d(2%, 1%, 0) scale(1.08); }
+        }
+
+        /* Circuit lines + glowing nodes */
+        .container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg, transparent 0 14%, rgba(0,229,255,.16) 14.1%, transparent 14.3% 78%, rgba(246,200,95,.10) 78.1%, transparent 78.3%),
+                linear-gradient(0deg, transparent 0 22%, rgba(0,229,255,.10) 22.1%, transparent 22.3% 82%, rgba(40,123,255,.12) 82.1%, transparent 82.3%);
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            opacity: .8;
+        }
+
+        .container {
+            position: relative;
+            flex: 0 1 auto;
+            background:
+                linear-gradient(145deg, rgba(11,31,61,.90), rgba(3,10,24,.82)),
+                radial-gradient(circle at 50% 0%, rgba(0,229,255,.09), transparent 40%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            width: 95%;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 40px;
+            border-radius: 28px;
+            box-shadow:
+                0 30px 90px rgba(0,0,0,.62),
+                0 0 0 1px rgba(0,229,255,.08),
+                inset 0 1px 0 rgba(255,255,255,.08);
+            border: 1px solid rgba(0,229,255,.22);
+            animation: fadeIn .7s ease;
+            overflow: hidden;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            top: -90px;
+            right: -90px;
+            border-radius: 50%;
+            background: rgba(0,229,255,.12);
+            filter: blur(35px);
+            pointer-events: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        h1, h2, h3 {
+            position: relative;
+            z-index: 1;
+            letter-spacing: .4px;
+        }
+
+        #loginPage h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-soft);
+            text-shadow:
+                0 0 8px rgba(246,200,95,.55),
+                0 0 28px rgba(0,229,255,.18);
+            font-size: clamp(25px, 5vw, 42px);
+            margin-bottom: 30px;
+        }
+
+        input, .search-bar {
+            width: 95%;
+            padding: 16px 18px;
+            margin: 12px 0;
+            border-radius: 14px;
+            border: 1px solid rgba(0,229,255,.25);
+            background: rgba(1,8,20,.72);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: .3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        input:focus, .search-bar:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 0 3px rgba(0,229,255,.08), 0 0 22px rgba(0,229,255,.16);
+        }
+
+        input::placeholder, .search-bar::placeholder { color: #8497b4; }
+
+        button {
+            background: linear-gradient(135deg, #0c6fff, #00bfe8);
+            color: white;
+            padding: 14px 25px;
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 13px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 9px 7px;
+            transition: .3s ease;
+            box-shadow: 0 8px 25px rgba(0,119,255,.18);
+            position: relative;
+            z-index: 1;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,229,255,.28);
+            border-color: rgba(0,229,255,.45);
+        }
+
+        .page { display: none; }
+
+        .tab-btn {
+            width: 30%;
+            background: rgba(255,255,255,.045);
+            border-color: rgba(0,229,255,.13);
+        }
+
+        .topic-btn {
+            background: linear-gradient(145deg, rgba(12,44,82,.80), rgba(5,19,40,.88));
+            border-color: rgba(0,229,255,.18);
+            margin: 8px;
+            width: 45%;
+        }
+
+        .topic-btn:hover {
+            background: linear-gradient(145deg, rgba(0,113,190,.85), rgba(8,35,70,.95));
+        }
+
+        .detail-box {
+            text-align: left;
+            background:
+                linear-gradient(145deg, rgba(3,14,31,.92), rgba(7,25,49,.82));
+            padding: 25px;
+            border-radius: 18px;
+            margin-top: 25px;
+            line-height: 2;
+            font-size: 16px;
+            border: 1px solid rgba(0,229,255,.16);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+        }
+
+        .share-btn { background: linear-gradient(135deg,#087f4e,#25d366); }
+        .back-btn { background: linear-gradient(135deg,#8e1e35,#ff4d4d); }
+
+        .active-tab {
+            background: linear-gradient(135deg, #00cfff, #1b5cff);
+            color: white;
+            box-shadow: 0 0 25px rgba(0,207,255,.25);
+        }
+
+        #dashboardPage h2, #detailPage h2 {
+            color: var(--gold-soft);
+            text-shadow: 0 0 15px rgba(246,200,95,.18);
+        }
+
+        #dashboardPage h3, #detailPage h3 {
+            color: #d9f8ff;
+        }
+
+        #thankYouPage h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-soft);
+            text-shadow: 0 0 18px rgba(246,200,95,.35);
+        }
+
+        #thankYouPage h6, #thankYouPage h5 {
+            color: var(--gold-soft) !important;
+            text-shadow: 0 0 10px rgba(246,200,95,.25) !important;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 700px) {
+            body {
+                padding: 10px;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 25px 15px;
+                border-radius: 22px;
+            }
+            .tab-btn, .topic-btn { width: 92%; }
+            input, .search-bar { width: 100%; }
+        }
+
+        /* Topic-specific royal themes — no rainbow background replacement */
+        body.theme-ms-office { --accent:#20d3a6; --accent2:#2374ff; }
+        body.theme-web { --accent:#00e5ff; --accent2:#287bff; }
+        body.theme-video { --accent:#a66cff; --accent2:#4d39ff; }
+        body.theme-design { --accent:#ff6b9a; --accent2:#8f5cff; }
+        body.theme-marketing { --accent:#f6c85f; --accent2:#00c89a; }
+        body.theme-social { --accent:#ff4d9d; --accent2:#7c5cff; }
+        body.theme-cv { --accent:#d9e6ff; --accent2:#4d76a8; }
+        body.theme-newspaper { --accent:#d9b77c; --accent2:#63748b; }
+        body.theme-books { --accent:#e7b7ff; --accent2:#7047b8; }
+        body.theme-magazine { --accent:#ff86b7; --accent2:#3f7cff; }
+
+        body[class*="theme-"] .container {
+            border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+            box-shadow: 0 30px 90px rgba(0,0,0,.65), 0 0 45px color-mix(in srgb, var(--accent) 12%, transparent);
+        }
+
+        body[class*="theme-"] .detail-box {
+            border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: LOGIN -->
+    <div class="container page" id="loginPage" style="display:block;">
+        <div aria-hidden="true" style="
+            height:2px; width:78%; margin:0 auto 22px;
+            background:linear-gradient(90deg,transparent,#00e5ff,#f6c85f,#00e5ff,transparent);
+            box-shadow:0 0 18px rgba(0,229,255,.55);
+            position:relative; z-index:1;"></div>
+        <h1> 🚀 DIGITAL SITE COOPERATION </h1>
+        <p style="
+            color:#a9bad3; font-size:13px; letter-spacing:2px;
+            text-transform:uppercase; margin-top:-18px; margin-bottom:24px;
+            position:relative; z-index:1;">Royal E-Learning Portal</p>
+        <input type="text" id="name" placeholder=" Enter Your Name " required>
+        <input type="number" id="age" placeholder=" Enter Your Age " required>
+        <button onclick="goToDashboard()"> Start Learning </button>
+    </div>
+
+    <!-- PAGE 2: DASHBOARD WITH 3 TABS -->
+    <div class="container page" id="dashboardPage">
+        <h2> Welcome, <span id="nameShow"></span>! </h2>
+        <input type="text" class="search-bar" id="searchBar" placeholder=" Search what you want to do... ">
+
+        <button class="tab-btn active-tab" onclick="showTab('learning')">📚 Courses</button>
+        <button class="tab-btn" onclick="showTab('tests')">📝 Sample Tests</button>
+        <button class="tab-btn" onclick="showTab('advance')">🧠 Advance Knowledge</button>
+        <button class="tab-btn" onclick="showTab('advice')">💡 Life Advice</button>
+        <button class="tab-btn" onclick="showTab('fun')">😂 Fun Activity</button>
+
+        <div id="learningTab" class="tab-content">
+            <h3>Course Learning Material</h3>
+            <button class="topic-btn" onclick="goToTopic('MS Office')">💼 MS Office</button>
+            <button class="topic-btn" onclick="goToTopic('Website Development')">🌐 Website Development</button>
+            <button class="topic-btn" onclick="goToTopic('Video Editing')">🎬 Video Editing</button>
+            <button class="topic-btn" onclick="goToTopic('Graphic Designing')">🎨 Graphic Designing</button>
+            <button class="topic-btn" onclick="goToTopic('Digital Marketing')">📈 Digital Marketing</button>
+            <button class="topic-btn" onclick="goToTopic('Social Media Management')">📱 Social Media Management</button>
+            <button class="topic-btn" onclick="goToTopic('CV Making')">📄 CV Making</button>
+            <button class="topic-btn" onclick="showTab('advance')">🧠 ADVANCE KNOWLEDGE</button>
+        </div>
+
+        <div id="testsTab" class="tab-content" style="display:none;">
+            <h3>Select a Course Test</h3>
+            <p>Choose a course first. A short professional self-assessment will then open.</p>
+            <button class="topic-btn" onclick="startTest('MS Office')">💼 MS Office Test</button>
+            <button class="topic-btn" onclick="startTest('Website Development')">🌐 Website Development Test</button>
+            <button class="topic-btn" onclick="startTest('Video Editing')">🎬 Video Editing Test</button>
+            <button class="topic-btn" onclick="startTest('Graphic Designing')">🎨 Graphic Designing Test</button>
+            <button class="topic-btn" onclick="startTest('Digital Marketing')">📈 Digital Marketing Test</button>
+            <button class="topic-btn" onclick="startTest('Social Media Management')">📱 Social Media Management Test</button>
+            <button class="topic-btn" onclick="startTest('CV Making')">📄 CV Making Test</button>
+            <button class="topic-btn" onclick="startTest('Newspaper & Magazine')">📰 Newspaper & Magazine Test</button>
+        </div>
+
+        <div id="advanceTab" class="tab-content" style="display:none;">
+            <h3>🧠 ADVANCE KNOWLEDGE</h3>
+            <p>Explore professional knowledge areas in publishing, editorial work and document production.</p>
+            <button class="topic-btn" onclick="goToTopic('Newspaper')">📰 Newspaper</button>
+            <button class="topic-btn" onclick="goToTopic('Books')">📚 Books</button>
+            <button class="topic-btn" onclick="goToTopic('Magazine')">📖 Magazine</button>
+        </div>
+
+        <div id="adviceTab" class="tab-content" style="display:none;">
+            <h3>What kind of Life Advice do you need?</h3>
+            <button class="topic-btn" onclick="goToTopic('Motivation')">Motivation</button>
+            <button class="topic-btn" onclick="goToTopic('Study Tips')">Study Tips</button>
+            <button class="topic-btn" onclick="goToTopic('Career')">Career Guidance</button>
+            <button class="topic-btn" onclick="goToTopic('Time Management')">Time Management</button>
+        </div>
+
+        <div id="funTab" class="tab-content" style="display:none;">
+            <h3>Choose Fun Activity</h3>
+            <button class="topic-btn" onclick="goToTopic('Jokes')">Jokes</button>
+            <button class="topic-btn" onclick="goToTopic('Riddles')">Riddles</button>
+            <button class="topic-btn" onclick="goToTopic('Fun Facts')">Fun Facts</button>
+            <button class="topic-btn" onclick="goToTopic('Motivational Quotes')">Quotes</button>
+        </div>
+
+        <button class="back-btn" onclick="exitSite()"> Exit </button>
+        <button class="share-btn" onclick="openShareChoice()"> Share More </button>
+    </div>
+
+    <!-- PAGE 3: DETAIL / TEST PAGE -->
+    <div class="container page" id="detailPage">
+        <h2 id="topicTitle"></h2>
+        <div id="topicInfo" class="detail-box"></div>
+        <button onclick="goToDashboard()"> Back to Dashboard </button>
+    </div>
+
+    <!-- PAGE 4: THANK YOU -->
+    <div class="container page" id="thankYouPage">
+        <h1> Thank You So Much </h1>
+        <p>Thanks for using our services🌐.</p>
+        <p>Keep Learning, Keep Growing. See you soon!</p>
+ <h6 style="color:#000000; font-weight:700; text-shadow:0 0 6px rgba(255,255,255,0.8);">
+  Contact us
+</h6>
+
+<h5 style="color:#000000; font-weight:700; text-shadow:0 0 7px rgba(255,255,255,0.8);">
+  0321-4864418 | digitalsitecooperation@gmail.com
+</h5>
+</div>
+<script>
+    let userName = "";
+    let hasAskedExit = false; // نیا variable
+
+    function goToDashboard() {
+        userName = document.getElementById("name").value;
+        let age = document.getElementById("age").value;
+        if(userName == "" || age == "") { alert("Please fill all fields!"); return; }
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("dashboardPage").style.display = "block";
+        document.getElementById("nameShow").innerHTML = userName;
+    }
+
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active-tab'));
+        document.getElementById(tabName + 'Tab').style.display = 'block';
+        event.target.classList.add('active-tab');
+    }
+
+    // یہ والا function change کر دیا
+    function goToTopic(topic) {
+        // پہلی بار چیک کرے گا
+        if(!sessionStorage.getItem('confirmed_' + topic)) {
+            let confirmLearn = confirm("Are you sure you want to explore " + topic + "?");
+            if(confirmLearn) {
+                sessionStorage.setItem('confirmed_' + topic, 'yes'); // Save کر دو
+                showDetail(topic);
+            }
+        } else {
+            // اگر پہلے confirm کر چکا ہے تو direct لے جاؤ
+            showDetail(topic);
+        }
+    }
+
+    function showDetail(topic) {
+        document.getElementById("dashboardPage").style.display = "none";
+        document.getElementById("detailPage").style.display = "block";
+        document.getElementById("topicTitle").innerHTML = "📖 " + topic;
+
+        const topicThemeClasses = {
+            "MS Office": "theme-ms-office",
+            "Website Development": "theme-web",
+            "Video Editing": "theme-video",
+            "Graphic Designing": "theme-design",
+            "Digital Marketing": "theme-marketing",
+            "Social Media Management": "theme-social",
+            "CV Making": "theme-cv",
+            "Newspaper": "theme-newspaper",
+            "Books": "theme-books",
+            "Magazine": "theme-magazine"
+        };
+
+        document.body.classList.remove(
+            "theme-ms-office", "theme-web", "theme-video", "theme-design",
+            "theme-marketing", "theme-social", "theme-cv", "theme-newspaper",
+            "theme-books", "theme-magazine"
+        );
+
+        if (topicThemeClasses[topic]) {
+            document.body.classList.add(topicThemeClasses[topic]);
+        }
+
+        let details = {
+            "MS Office": `<b>Professional MS Office Course</b><br><br>
+                A complete productivity course covering Microsoft Word, Excel, PowerPoint and essential professional office workflows.
+                <br><br><b>Core Learning Areas:</b><br>
+                • Microsoft Word: document creation, formatting, page layout, tables, images, headers and footers, references, mail merge, professional letters, reports and CV documents.<br>
+                • Microsoft Excel: worksheets, formatting, formulas, functions, SUM, AVERAGE, MAX, MIN, IF, sorting, filtering, charts, data management and professional marks sheets.<br>
+                • Microsoft PowerPoint: slide design, layouts, themes, text, images, charts, transitions, animations, presentations and professional presentation structure.<br>
+                • Office Productivity: file management, printing, PDF workflows, professional document organization and practical workplace tasks.
+                <br><br><b>Professional Outcome:</b> Build practical office documents and presentations suitable for study, business and workplace use.`,
+
+            "Website Development": `<b>Professional Website Development Course</b><br><br>
+                Learn how modern websites are planned, structured, designed and made interactive from the ground up.
+                <br><br><b>Core Learning Areas:</b><br>
+                • HTML: page structure, headings, links, images, forms, tables and semantic elements.<br>
+                • CSS: colors, typography, spacing, layouts, Flexbox, responsive design, cards, navigation and modern visual styling.<br>
+                • JavaScript: variables, functions, events, DOM manipulation, forms and interactive website features.<br>
+                • Responsive Design: mobile, tablet and desktop layouts.<br>
+                • Practical Projects: landing pages, portfolio pages, business websites and interactive mini projects.
+                <br><br><b>Professional Outcome:</b> Understand the complete front-end workflow and create responsive, user-friendly websites.`,
+
+            "Video Editing": `<b>Professional Video Editing Course</b><br><br>
+                Learn the professional workflow used to transform raw footage into engaging videos for social media, YouTube and business communication.
+                <br><br><b>Core Learning Areas:</b><br>
+                • Project setup, media organization and timeline workflow.<br>
+                • Cutting, trimming, transitions, speed control and sequence editing.<br>
+                • Audio editing, voice-over, music, sound effects and synchronization.<br>
+                • Titles, captions, graphics, overlays and visual effects.<br>
+                • Color correction, basic color grading and export settings.<br>
+                • Short-form content, YouTube videos, promotional videos and social media edits.
+                <br><br><b>Professional Outcome:</b> Develop a clean editing workflow and produce polished, audience-focused video content.`,
+
+            "Graphic Designing": `<b>Professional Graphic Designing Course</b><br><br>
+                Learn the principles and practical workflow behind professional visual communication and digital design.
+                <br><br><b>Core Learning Areas:</b><br>
+                • Design principles, composition, balance, contrast and visual hierarchy.<br>
+                • Color theory, color palettes and professional typography.<br>
+                • Logo concepts, branding, social media posts, posters, flyers, banners and thumbnails.<br>
+                • Image editing, backgrounds, shapes, layers, masks and export formats.<br>
+                • Canva/Photoshop-style professional workflows and design organization.<br>
+                • Client-focused design presentation and revisions.
+                <br><br><b>Professional Outcome:</b> Create visually consistent designs for personal brands, businesses and digital platforms.`,
+
+            "Digital Marketing": `<b>Professional Digital Marketing Course</b><br><br>
+                Learn how businesses use digital channels to reach audiences, generate interest and build measurable online growth.
+                <br><br><b>Core Learning Areas:</b><br>
+                • Digital marketing fundamentals and customer journey.<br>
+                • Content strategy, audience research and campaign planning.<br>
+                • Search Engine Optimization fundamentals and keyword concepts.<br>
+                • Social media promotion, advertising concepts and campaign objectives.<br>
+                • Email marketing basics, landing pages and conversion concepts.<br>
+                • Analytics, performance indicators and continuous campaign improvement.
+                <br><br><b>Professional Outcome:</b> Understand how to plan, execute and evaluate practical digital marketing campaigns.`,
+
+            "Social Media Management": `<b>Professional Social Media Management Course</b><br><br>
+                Learn how to professionally manage a brand's presence across major social platforms.
+                <br><br><b>Core Learning Areas:</b><br>
+                • Social media strategy and platform selection.<br>
+                • Content calendars, post planning and publishing workflows.<br>
+                • Captions, hashtags, creative briefs and audience engagement.<br>
+                • Community management, comments, messages and professional communication.<br>
+                • Brand consistency, campaign coordination and basic analytics.<br>
+                • Reels/short-form content planning and performance review.
+                <br><br><b>Professional Outcome:</b> Build organized, consistent and audience-focused social media operations.`,
+
+            "CV Making": `<b>Additional Course: Professional CV Making</b><br><br>
+                Learn how to prepare a clear, professional and job-focused CV that presents education, skills, projects and experience effectively.
+                <br><br><b>Core Learning Areas:</b><br>
+                • CV structure and professional formatting.<br>
+                • Personal profile, education, skills, projects and experience sections.<br>
+                • Achievement-focused wording and professional presentation.<br>
+                • Tailoring a CV for different roles and opportunities.<br>
+                • Basic cover letter and application document structure.
+                <br><br><b>Professional Outcome:</b> Create clean and professional career documents suitable for applications and internships.`,
+
+            "Newspaper": `<b>ADVANCE KNOWLEDGE: Newspaper</b><br><br>
+                Explore professional newspaper structure, editorial organization and page presentation.
+                <br><br><b>Core Knowledge:</b><br>
+                • News structure, headlines, subheadings and article hierarchy.<br>
+                • Editorial columns, grids, spacing and page balance.<br>
+                • Image placement, captions and visual storytelling.<br>
+                • Front-page planning and section organization.<br>
+                • Professional typography, readability and print-ready page concepts.
+                <br><br><b>Professional Outcome:</b> Understand how a newspaper is organized from headline to complete page layout.`,
+
+            "Books": `<b>ADVANCE KNOWLEDGE: Books</b><br><br>
+                Learn the fundamental structure and professional preparation of books for print and digital publication.
+                <br><br><b>Core Knowledge:</b><br>
+                • Book structure, title pages, chapters and page numbering.<br>
+                • Cover design concepts and visual consistency.<br>
+                • Typography, margins, spacing and paragraph formatting.<br>
+                • Table of contents, headings and document organization.<br>
+                • Basic print-ready and digital publication considerations.
+                <br><br><b>Professional Outcome:</b> Understand how professional book content is organized, formatted and prepared for publication.`,
+
+            "Magazine": `<b>ADVANCE KNOWLEDGE: Magazine</b><br><br>
+                Learn modern magazine composition, editorial design and multi-page visual storytelling.
+                <br><br><b>Core Knowledge:</b><br>
+                • Magazine covers, feature pages and article layouts.<br>
+                • Grids, columns, typography and visual hierarchy.<br>
+                • Photography, captions, pull quotes and graphic elements.<br>
+                • Consistent page systems and section branding.<br>
+                • Multi-page layout planning and professional export concepts.
+                <br><br><b>Professional Outcome:</b> Understand how to create attractive, readable and professionally structured magazine pages.`
+        };
+
+        document.getElementById("topicInfo").innerHTML =
+            details[topic] || `<b>About ${topic}</b><br><br>This learning material is being prepared.`;
+    }
+
+    const testQuestions = {
+        "MS Office": [
+            ["Which Excel function calculates a total?", ["SUM", "COUNT", "AVERAGE", "MAX"], "SUM"],
+            ["Which Microsoft application is mainly used for presentations?", ["Word", "Excel", "PowerPoint", "Access"], "PowerPoint"],
+            ["Which Word feature can combine a document with a recipient list?", ["Mail Merge", "WordArt", "Track Changes", "Page Break"], "Mail Merge"]
+        ],
+        "Website Development": [
+            ["Which language provides the structure of a webpage?", ["CSS", "HTML", "JavaScript", "SQL"], "HTML"],
+            ["Which language is mainly used for webpage styling?", ["HTML", "Python", "CSS", "PHP"], "CSS"],
+            ["Which language adds interactive behavior to webpages?", ["Java", "JavaScript", "CSS", "HTML"], "JavaScript"]
+        ],
+        "Video Editing": [
+            ["What is the main purpose of trimming?", ["Add music", "Remove unwanted parts", "Change resolution", "Create a logo"], "Remove unwanted parts"],
+            ["Which element controls spoken sound in a video?", ["Audio", "Typography", "Canvas", "Grid"], "Audio"],
+            ["What is color correction used for?", ["Writing captions", "Improving visual color balance", "Adding hyperlinks", "Creating tables"], "Improving visual color balance"]
+        ],
+        "Graphic Designing": [
+            ["What is typography concerned with?", ["Text and type", "Video speed", "Website hosting", "Email delivery"], "Text and type"],
+            ["What does visual hierarchy help control?", ["What viewers notice first", "Internet speed", "File size only", "Audio volume"], "What viewers notice first"],
+            ["What is a color palette?", ["A selected group of colors", "A video timeline", "A website database", "A spreadsheet formula"], "A selected group of colors"]
+        ],
+        "Digital Marketing": [
+            ["What does SEO primarily help improve?", ["Search visibility", "Video resolution", "Printer speed", "File compression"], "Search visibility"],
+            ["What is audience research?", ["Understanding the target audience", "Designing a logo only", "Editing audio", "Formatting a spreadsheet"], "Understanding the target audience"],
+            ["What does analytics help marketers do?", ["Measure performance", "Create paper books", "Install software", "Change monitor brightness"], "Measure performance"]
+        ],
+        "Social Media Management": [
+            ["What is a content calendar used for?", ["Planning content", "Editing hardware", "Writing code only", "Printing books"], "Planning content"],
+            ["What is community management?", ["Managing audience interactions", "Designing a database", "Editing a video", "Creating formulas"], "Managing audience interactions"],
+            ["Why are analytics important?", ["To measure performance", "To change fonts only", "To create folders", "To install apps"], "To measure performance"]
+        ],
+        "CV Making": [
+            ["What is the purpose of a professional CV?", ["Present qualifications and experience", "Create advertisements", "Edit videos", "Build websites"], "Present qualifications and experience"],
+            ["Should a CV be tailored to a role?", ["Yes", "No", "Only for students", "Never"], "Yes"],
+            ["Which section can highlight relevant projects?", ["Projects", "Page Setup", "Timeline", "Hashtags"], "Projects"]
+        ]
+    };
+
+    function startTest(course) {
+        document.getElementById("dashboardPage").style.display = "none";
+        document.getElementById("detailPage").style.display = "block";
+        document.getElementById("topicTitle").innerHTML = "📝 " + course + " — Sample Test";
+
+        const questions = testQuestions[course] || [];
+        let html = `<b>Self-Assessment Test</b><br><br>
+            Select <b>one correct answer</b> for each question.<br><br>
+            <form id="testForm">`;
+
+        questions.forEach((q, i) => {
+            html += `<p><b>${i + 1}. ${q[0]}</b></p>`;
+            q[1].forEach((option, j) => {
+                const letter = String.fromCharCode(65 + j);
+                html += `<label style="display:block; background:rgba(255,255,255,0.08); padding:10px; margin:7px 0; border-radius:10px; cursor:pointer;">
+                    <input type="radio" name="answer${i}" value="${option}" style="width:auto; margin-right:8px;"> ${letter}. ${option}
+                </label>`;
+            });
+        });
+
+        html += `<br><button type="button" onclick="checkTest('${course}')">Check My Test</button>
+                 </form>
+                 <div id="testResult" style="margin-top:20px;"></div>`;
+
+        document.getElementById("topicInfo").innerHTML = html;
+    }
+
+    function checkTest(course) {
+        const questions = testQuestions[course] || [];
+        let score = 0;
+        let answered = 0;
+
+        questions.forEach((q, i) => {
+            const selected = document.querySelector('input[name="answer' + i + '"]:checked');
+            if (selected) {
+                answered++;
+                if (selected.value === q[2]) score++;
+            }
+        });
+
+        if (answered < questions.length) {
+            document.getElementById("testResult").innerHTML =
+                `<b>Please answer all questions before checking your test.</b>`;
+            return;
+        }
+
+        const percent = Math.round((score / questions.length) * 100);
+        document.getElementById("testResult").innerHTML =
+            `<b>Test Result:</b> ${score}/${questions.length} correct (${percent}%).<br><br>
+             Keep practicing and review the course material to improve your score.`;
+    }
+
+
+    // Exit والا بھی صرف ایک بار پوچھے گا
+    function exitSite() {
+        if(!hasAskedExit) {
+            let confirmExit = confirm("Are you sure you want to leave this site?");
+            if(confirmExit) {
+                hasAskedExit = true;
+                document.getElementById("dashboardPage").style.display = "none";
+                document.getElementById("thankYouPage").style.display = "block";
+            }
+        } else {
+             document.getElementById("dashboardPage").style.display = "none";
+             document.getElementById("thankYouPage").style.display = "block";
+        }
+    }
+
+    let selectedShareType = "";
+
+    function openShareChoice() {
+        document.getElementById("sharePanel").style.display = "flex";
+        document.getElementById("shareMethods").style.display = "none";
+        selectedShareType = "";
+    }
+
+    function closeSharePanel() {
+        document.getElementById("sharePanel").style.display = "none";
+        document.getElementById("shareMethods").style.display = "none";
+        selectedShareType = "";
+    }
+
+    function prepareShare(type) {
+        selectedShareType = type;
+
+        const message = type === "current"
+            ? "I am sharing the current learning course/page from the DS Learning Portal."
+            : "I am sharing the complete DS Learning Portal with all available learning materials.";
+
+        const confirmed = confirm(
+            type === "current"
+                ? "Would you like to share the current course/page?"
+                : "Would you like to share the whole website?"
+        );
+
+        if (!confirmed) return;
+
+        document.getElementById("shareMethods").style.display = "block";
+        window.shareMessage = message;
+    }
+
+    function getShareData() {
+        const websiteUrl = window.location.href;
+
+        if (selectedShareType === "current") {
+            const title = document.getElementById("topicTitle").innerText || "Current Learning Course";
+            return {
+                title: title + " | DS Learning Portal",
+                text: window.shareMessage + " Topic: " + title,
+                url: websiteUrl
+            };
+        }
+
+        return {
+            title: "DS Learning Portal",
+            text: "Explore the complete DS Learning Portal with professional course learning materials, sample tests and advance knowledge.",
+            url: websiteUrl
+        };
+    }
+
+    function shareViaWhatsApp() {
+        const data = getShareData();
+        const whatsappText = encodeURIComponent(data.text + "\n\n" + data.url);
+        window.open("https://wa.me/?text=" + whatsappText, "_blank");
+    }
+
+    function shareViaSMS() {
+        const data = getShareData();
+        const smsText = encodeURIComponent(data.text + "\n\n" + data.url);
+        window.location.href = "sms:?body=" + smsText;
+    }
+
+    async function shareViaDevice() {
+        const data = getShareData();
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: data.title,
+                    text: data.text,
+                    url: data.url
+                });
+            } catch (error) {
+                if (error.name !== "AbortError") {
+                    alert("Device sharing is not available right now. Please try WhatsApp or SMS.");
+                }
+            }
+        } else {
+            alert("Device sharing is not supported by this browser. Please use WhatsApp or SMS.");
+        }
+    }
+
+
+    document.getElementById("searchBar").addEventListener("keyup", function(event) {
+        if(event.key === "Enter") {
+            alert("You searched for: " + this.value + "\nWe will add AI Search soon!");
+        }
+    });
+</script>
+
+
+    <!-- PROFESSIONAL SHARE PANEL -->
+    <div id="sharePanel" style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.75);
+        backdrop-filter:blur(10px);
+        z-index:9999;
+        justify-content:center;
+        align-items:center;
+        padding:20px;">
+        <div style="
+            width:95%;
+            max-width:520px;
+            background:rgba(20,20,35,0.96);
+            border:1px solid rgba(255,255,255,0.25);
+            border-radius:25px;
+            padding:30px;
+            box-shadow:0 20px 70px rgba(0,0,0,0.6);
+            text-align:center;">
+            <h2>Share Learning Portal</h2>
+            <p>What would you like to share?</p>
+
+            <button class="topic-btn" style="width:90%;" onclick="prepareShare('current')">
+                📖 Share Current Course / Page
+            </button>
+
+            <button class="topic-btn" style="width:90%;" onclick="prepareShare('whole')">
+                🌐 Share Whole Website
+            </button>
+
+            <div id="shareMethods" style="display:none; margin-top:20px;">
+                <h3>Select Sharing Method</h3>
+                <p style="font-size:14px;">Choose WhatsApp, SMS, or your device's sharing options (including Bluetooth when supported).</p>
+
+                <button class="topic-btn" style="width:90%; background:#25D366;" onclick="shareViaWhatsApp()">
+                    💬 WhatsApp
+                </button>
+
+                <button class="topic-btn" style="width:90%; background:#3b82f6;" onclick="shareViaSMS()">
+                    📱 SMS
+                </button>
+
+                <button class="topic-btn" style="width:90%; background:#6a11cb;" onclick="shareViaDevice()">
+                    📡 Bluetooth / Device Share
+                </button>
+            </div>
+
+            <button class="back-btn" style="margin-top:15px;" onclick="closeSharePanel()">
+                Close
+            </button>
+        </div>
+    </div>
+
+</body>
+</html>
